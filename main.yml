@@ -1,0 +1,16 @@
+- name: test errors report
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: error tasks
+      ansible.builtin.shell: |
+        eco "Fail echo"
+      register: error
+      ignore_errors: true
+
+    - block:
+        - name: register error
+          ansible.builtin.import_role:
+            name: liverpool.automation.errors_report
+          vars:
+            error_message: esto es un error
