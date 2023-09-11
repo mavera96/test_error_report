@@ -22,7 +22,7 @@
   ansible.builtin.include_role:
     name: liverpool.automation.errors_report
   vars:
-    failed_host: item
+    failed_host: "{{ item }}"
     error_message: "Nodo no resuelve dns"
   loop: "{{ data_is_not_resolvable }}"
   when: data_is_not_resolvable | length > 0
