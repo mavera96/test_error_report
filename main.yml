@@ -29,13 +29,30 @@
       ansible.builtin.setup:
       register: connection
       ignore_unreachable: true
+      ignore_errors: true
     
     - block:
-        - name: register unreachable hosts
+        - name: Register permissions denied hosts
           ansible.builtin.include_role:
             name: liverpool.automation.errors_report
           vars:
-            error_message: "{{ connection.msg }}"
+            error_message: "Error en autenticación ssh"
+          when: '"Permission denied" in connection.msg'
+
+        - name: Register timeout connection
+          ansible.builtin.include_role:
+            name: liverpool.automation.errors_report
+          vars:
+            error_message: "Conexión ssh con timeout"
+          when: '"Connection timed out" in connection.msg'
+
+        - name: Register possible python errors
+          ansible.builtin.include_role:
+            name: liverpool.automation.errors_report
+          vars:
+            error_message: "Error probablemente causado por python"
+          when: 'connection.rc is defined'
+
         - name: Discard unreachable hosts
           ansible.builtin.fail:
             msg: "{{ connection.msg }}"
