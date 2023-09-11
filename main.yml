@@ -10,7 +10,7 @@
 
     - block:
         - name: register error
-          ansible.builtin.import_role:
+          ansible.builtin.include_role:
             name: liverpool.automation.errors_report
           vars:
             error_message: esto es un error
