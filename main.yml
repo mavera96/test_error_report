@@ -22,6 +22,7 @@
       loop: "{{ mgmt_hosts }}"
 
 - name: Collecting facts
+  hosts: all
   gather_facts: no
   tasks:
     - name: gather required facts
