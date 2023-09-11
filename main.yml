@@ -11,7 +11,7 @@
 
     - name: Run validations on Survey data
       ansible.builtin.include_role:
-        role: survey
+        role: liverpool.automation.hosts_validation
       vars:
         hosts_provided: "{{ managed_hosts }}"
 
