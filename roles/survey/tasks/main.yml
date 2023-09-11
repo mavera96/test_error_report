@@ -18,13 +18,13 @@
       "Incorrect data: {{ data_is_ip }}"
   when: data_is_ip | length > 0
 
-- name: Register ips detected
+- name: Register hosts with no dns
   ansible.builtin.include_role:
     name: liverpool.automation.errors_report
   vars:
     failed_host: item
     error_message: "Nodo no resuelve dns"
-  loop: data_is_not_resolvable
+  loop: "{{ data_is_not_resolvable }}"
   when: data_is_not_resolvable | length > 0
 
 - name: Notify hosts aren't resolvable
