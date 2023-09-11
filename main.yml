@@ -57,7 +57,8 @@
           ansible.builtin.fail:
             msg: "{{ connection.msg }}"
       when:
-        connection.unreachable is defined
+        connection.unreachable is defined or connection.rc is defined
+
 
 - name: test errors report
   hosts: all
