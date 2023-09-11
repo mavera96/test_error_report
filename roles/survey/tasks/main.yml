@@ -1,0 +1,45 @@
+---
+- name: Detect nodes declared as IPs
+  ansible.builtin.set_fact:
+    data_is_ip: "{{ data_is_ip + [item] }}"
+  loop: "{{ hosts_provided }}"
+  when: item is ansible.utils.ipv4
+
+- name: Detect nodes with no DNS resolution
+  ansible.builtin.set_fact:
+    data_is_not_resolvable: "{{ data_is_not_resolvable + [item] }}"
+  loop: "{{ hosts_provided }}"
+  when: item is not ansible.utils.resolvable
+
+- name: Notify ips detected
+  ansible.builtin.debug:
+    msg: |
+      "Incorrect format data found"
+      "Incorrect data: {{ data_is_ip }}"
+  when: data_is_ip | length > 0
+
+- name: Notify hosts aren't resolvable
+  ansible.builtin.debug:
+    msg: |
+      "The entered hosts do not resolve by DNS"
+      "Unresolvable hosts: {{ data_is_not_resolvable }}"
+  when: data_is_not_resolvable | length > 0
+
+- name: Save valid hosts
+  ansible.builtin.set_fact:
+    mgmt_hosts: "{{ mgmt_hosts + [item] }}"
+  loop: "{{ hosts_provided }}"
+  when: 
+    - item not in data_is_not_resolvable
+    - item not in data_is_ip
+- block:
+  - name: register error
+    ansible.builtin.include_role:
+      name: liverpool.automation.errors_report
+    vars:
+      error_message: DNS NO PUEDE RESOLVER ESTE HOST
+  - name: Notify No Hosts Valid
+    ansible.builtin.fail:
+      msg: "No hosts entered are valid"
+  when: mgmt_hosts == []
+...

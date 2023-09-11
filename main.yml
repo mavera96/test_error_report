@@ -1,6 +1,28 @@
-- name: test errors report
+---
+- name: inventory creation in memory
   hosts: localhost
   connection: local
+  gather_facts: no
+  vars:
+    managed_hosts: "{{ managed_hosts_survey | split('\n') | map('trim') | difference(['']) }}"
+  tasks:
+    - ansible.builtin.debug:
+        var: managed_hosts
+
+    - name: Run validations on Survey data
+      ansible.builtin.include_role:
+        role: survey
+      vars:
+        hosts_provided: "{{ managed_hosts }}"
+
+    - name: Load managed hosts group
+      ansible.builtin.add_host:
+        name: "{{ item }}"
+        groups: mgmt_hosts
+      loop: "{{ mgmt_hosts }}"
+
+- name: test errors report
+  hosts: all
   tasks:
     - name: error tasks
       ansible.builtin.shell: |
@@ -14,3 +36,4 @@
             name: liverpool.automation.errors_report
           vars:
             error_message: esto es un error
+      when: error.rc is defined
