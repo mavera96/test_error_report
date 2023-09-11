@@ -23,7 +23,7 @@
     name: liverpool.automation.errors_report
   vars:
     failed_host: "{{ item }}"
-    error_message: "Nodo no resuelve dns"
+    error_message: "Nodo no resuelve dns o se declaro como ip"
   loop: "{{ data_is_not_resolvable }}"
   when: data_is_not_resolvable | length > 0
 

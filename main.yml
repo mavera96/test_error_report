@@ -36,7 +36,7 @@
           ansible.builtin.include_role:
             name: liverpool.automation.errors_report
           vars:
-            error_message: "Error en autenticación ssh"
+            error_message: "Error en autenticacion ssh"
           when: '"Permission denied" in connection.msg'
 
         - name: Register timeout connection
@@ -76,3 +76,13 @@
           vars:
             error_message: esto es un error
       when: error.rc is defined
+
+- name: upload report
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: register error
+          ansible.builtin.include_role:
+            name: liverpool.automation.errors_report
+          vars:
+            upload_log: true
