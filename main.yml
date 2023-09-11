@@ -82,7 +82,7 @@
   connection: local
   tasks:
     - name: register error
-          ansible.builtin.include_role:
-            name: liverpool.automation.errors_report
-          vars:
-            upload_log: true
+      ansible.builtin.include_role:
+        name: liverpool.automation.errors_report
+      vars:
+        upload_log: true
