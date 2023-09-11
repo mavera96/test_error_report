@@ -21,6 +21,26 @@
         groups: mgmt_hosts
       loop: "{{ mgmt_hosts }}"
 
+- name: Collecting facts
+  gather_facts: no
+  tasks:
+    - name: gather required facts
+      ansible.builtin.setup:
+      register: connection
+      ignore_unreachable: true
+    
+    - block:
+        - name: register unreachable hosts
+          ansible.builtin.include_role:
+            name: liverpool.automation.errors_report
+          vars:
+            error_message: "{{ connection.msg }}"
+        - name: Discard unreachable hosts
+          ansible.builtin.fail:
+            msg: "{{ connection.msg }}"
+      when:
+        connection.unreachable is defined
+
 - name: test errors report
   hosts: all
   tasks:
