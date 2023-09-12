@@ -27,7 +27,7 @@
   tasks:
     - name: connection test
       ansible.builtin.include_role:
-        name: connection_validation
+        name: liverpool.automation.connection_validation
       vars:
         subsets:
           - '!all'
