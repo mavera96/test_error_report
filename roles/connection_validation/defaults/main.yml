@@ -1,0 +1,2 @@
+subsets_default:
+  - '!all'

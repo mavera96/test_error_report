@@ -1,6 +1,6 @@
 - name: gather required facts
   ansible.builtin.setup:
-    gather_subset: "{{ subsets | default (- '!all') }}"
+    gather_subset: "{{ subsets | default (subsets_default) }}"
   register: connection
   ignore_unreachable: true
   ignore_errors: true
