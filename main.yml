@@ -86,7 +86,7 @@
           ansible.builtin.include_role:
             name: liverpool.automation.errors_report
           vars:
-            error_message: esto es un error
+            warning_message: esto es un warning
 
         - name: break playbook on this host
           ansible.builtin.fail:
@@ -96,11 +96,11 @@
         - debug:
             msg: '{{ ansible_play_batch }}'
 
-- name: upload report
-  hosts: localhost
-  tasks:
-    - name: register error
-      ansible.builtin.include_role:
-        name: liverpool.automation.errors_report
-      vars:
-        upload_log: true
+# - name: upload report
+#   hosts: localhost
+#   tasks:
+#     - name: register error
+#       ansible.builtin.include_role:
+#         name: liverpool.automation.errors_report
+#       vars:
+#         upload_log: true
