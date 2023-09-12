@@ -97,7 +97,6 @@
 
 - name: upload report
   hosts: localhost
-  connection: local
   tasks:
     - name: register error
       ansible.builtin.include_role:
