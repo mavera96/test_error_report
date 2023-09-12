@@ -7,17 +7,19 @@
     - ansible.builtin.debug:
         var: managed_hosts
 
-    - name: Run validations on Survey data
-      ansible.builtin.include_role:
-        role: liverpool.automation.hosts_validation
-      vars:
-        hosts_provided: "{{ managed_hosts }}"
+    # - name: Run validations on Survey data
+    #   ansible.builtin.include_role:
+    #     role: liverpool.automation.hosts_validation
+    #   vars:
+    #     hosts_provided: "{{ managed_hosts }}"
 
     - name: Load managed hosts group
       ansible.builtin.add_host:
         name: "{{ item }}"
         groups: mgmt_hosts
-      loop: "{{ mgmt_hosts }}"
+      # loop: "{{ mgmt_hosts }}"
+      loop: "{{ managed_hosts }}"
+
 
 - name: gather facts
   hosts: all
@@ -30,14 +32,16 @@
         subsets:
           - '!all'
           - 'all_ipv4_addresses'
+      retries: 3
+      delay: 3
 
-- name: upload report
-  hosts: localhost
-  tasks:
-    - name: register error
-      ansible.builtin.include_role:
-        name: liverpool.automation.errors_report
-      vars:
-        upload_log: true
+# - name: upload report
+#   hosts: localhost
+#   tasks:
+#     - name: register error
+#       ansible.builtin.include_role:
+#         name: liverpool.automation.errors_report
+#       vars:
+#         upload_log: true
 
     
