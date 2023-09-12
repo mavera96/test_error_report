@@ -14,7 +14,6 @@
         role: liverpool.automation.hosts_validation
       vars:
         hosts_provided: "{{ managed_hosts }}"
-        errors_report: false
 
     - name: Load managed hosts group
       ansible.builtin.add_host:
@@ -33,6 +32,8 @@
         subsets:
           - '!all'
           - 'all_ipv4_addresses'
+
+        errors_report: false
     # - name: gather required facts
     #   ansible.builtin.setup:
     #   register: connection
