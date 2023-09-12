@@ -1,0 +1,43 @@
+- name: nodos cmdb
+  hosts: localhost
+  connection: local
+  vars:
+    managed_hosts: "{{ managed_hosts_survey | split('\n') | map('trim') | difference(['']) }}"
+  tasks:
+    - ansible.builtin.debug:
+        var: managed_hosts
+
+    - name: Run validations on Survey data
+      ansible.builtin.include_role:
+        role: liverpool.automation.hosts_validation
+      vars:
+        hosts_provided: "{{ managed_hosts }}"
+
+    - name: Load managed hosts group
+      ansible.builtin.add_host:
+        name: "{{ item }}"
+        groups: mgmt_hosts
+      loop: "{{ mgmt_hosts }}"
+
+- name: gather facts
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: connection test
+      ansible.builtin.include_role:
+        name: liverpool.automation.connection_validation
+      vars:
+        subsets:
+          - '!all'
+          - 'all_ipv4_addresses'
+
+- name: upload report
+  hosts: localhost
+  tasks:
+    - name: register error
+      ansible.builtin.include_role:
+        name: liverpool.automation.errors_report
+      vars:
+        upload_log: true
+
+    
