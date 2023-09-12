@@ -91,6 +91,9 @@
           ansible.builtin.fail:
             msg: esto es un error
       when: error.rc is defined
+      always:
+        - debug:
+          msg: '{{ ansible_play_batch }}'
 
 - name: upload report
   hosts: localhost
