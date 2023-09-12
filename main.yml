@@ -93,7 +93,7 @@
       when: error.rc is defined
       always:
         - debug:
-          msg: '{{ ansible_play_batch }}'
+            msg: '{{ ansible_play_batch }}'
 
 - name: upload report
   hosts: localhost
