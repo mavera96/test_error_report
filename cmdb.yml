@@ -32,16 +32,14 @@
         subsets:
           - '!all'
           - 'all_ipv4_addresses'
-      retries: 3
-      delay: 3
 
-# - name: upload report
-#   hosts: localhost
-#   tasks:
-#     - name: register error
-#       ansible.builtin.include_role:
-#         name: liverpool.automation.errors_report
-#       vars:
-#         upload_log: true
+- name: upload report
+  hosts: localhost
+  tasks:
+    - name: register error
+      ansible.builtin.include_role:
+        name: liverpool.automation.errors_report
+      vars:
+        upload_log: true
 
     
