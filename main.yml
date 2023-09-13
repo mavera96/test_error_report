@@ -83,7 +83,7 @@
           ansible.builtin.include_role:
             name: liverpool.automation.errors_report
           vars:
-            error_message: esto es un warning
+            warning_message: esto es un warning
 
         # - name: break playbook on this host
         #   ansible.builtin.fail:
