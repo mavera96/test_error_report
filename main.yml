@@ -78,8 +78,6 @@
       register: error
       ignore_errors: true
 
-    - debug:
-        msg: '{{ ansible_play_batch }}'
     - block:
         - name: register error
           ansible.builtin.include_role:
@@ -91,9 +89,6 @@
         #   ansible.builtin.fail:
         #     msg: esto es un error
       when: error.rc is defined
-      always:
-        - debug:
-            msg: '{{ ansible_play_batch }}'
 
 - name: upload report
   hosts: localhost
