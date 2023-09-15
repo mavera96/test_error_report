@@ -9,7 +9,7 @@
 
     # - name: Run validations on Survey data
     #   ansible.builtin.include_role:
-    #     role: liverpool.automation.hosts_validation
+    #     role: liverpool.automation_nonprod.hosts_validation
     #   vars:
     #     hosts_provided: "{{ managed_hosts }}"
 
@@ -27,7 +27,7 @@
   tasks:
     - name: connection test
       ansible.builtin.include_role:
-        name: liverpool.automation.connection_validation
+        name: liverpool.automation_nonprod.connection_validation
       vars:
         subsets:
           - '!all'
@@ -38,7 +38,7 @@
   tasks:
     - name: register error
       ansible.builtin.include_role:
-        name: liverpool.automation.errors_report
+        name: liverpool.automation_nonprod.errors_report
       vars:
         upload_log: true
 
