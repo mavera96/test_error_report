@@ -20,7 +20,7 @@
 
 - name: Register hosts with no dns
   ansible.builtin.include_role:
-    name: liverpool.automation.errors_report
+    name: liverpool.automation.general_log_errors
   vars:
     failed_host: "{{ item }}"
     error_message: "Nodo no resuelve dns o se declaro como ip"
@@ -44,7 +44,7 @@
 - block:
   - name: register error
     ansible.builtin.include_role:
-      name: liverpool.automation.errors_report
+      name: liverpool.automation.general_log_errors
     vars:
       error_message: DNS NO PUEDE RESOLVER ESTE HOST
   - name: Notify No Hosts Valid

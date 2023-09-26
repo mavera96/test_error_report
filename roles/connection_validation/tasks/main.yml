@@ -8,21 +8,21 @@
 - block:
     - name: Register permissions denied hosts
       ansible.builtin.include_role:
-        name: liverpool.automation.errors_report
+        name: liverpool.automation.general_log_errors
       vars:
         error_message: "No conexion: Error en autenticacion ssh"
       when: '"Permission denied" in connection.msg'
 
     - name: Register timeout connection
       ansible.builtin.include_role:
-        name: liverpool.automation.errors_report
+        name: liverpool.automation.general_log_errors
       vars:
         error_message: "No conexion: Conexion ssh con timeout"
       when: '"Connection timed out" in connection.msg'
 
     - name: Register possible python errors
       ansible.builtin.include_role:
-        name: liverpool.automation.errors_report
+        name: liverpool.automation.general_log_errors
       vars:
         error_message: "No conexion: Posible error con modulos de Python"
       when: 'connection.rc is defined'
