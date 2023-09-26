@@ -79,12 +79,17 @@
       ignore_errors: true
 
     - block:
-        - name: register error
+        - name: register warning
           ansible.builtin.include_role:
             name: liverpool.automation_nonprod.errors_report
           vars:
             warning_message: esto es un warning
 
+        - name: register error
+          ansible.builtin.include_role:
+            name: liverpool.automation_nonprod.errors_report
+          vars:
+            warning_message: esto es un error
         # - name: break playbook on this host
         #   ansible.builtin.fail:
         #     msg: esto es un error
